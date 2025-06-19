@@ -1,4 +1,16 @@
-# 🎯 Obiettivi della sessione
+# 📄 Scaletta Sessione 1 – Introduzione a Java e Ambiente di Sviluppo
+
+## ⏱️ Durata
+
+2 ore totali:
+
+* 30–40 min teoria
+* 30–40 min live coding
+* 30–45 min esercitazione
+
+---
+
+## 🎯 Obiettivi della sessione
 
 * Comprendere cos'è Java, la sua storia e le sue caratteristiche principali.
 * Configurare l'ambiente di sviluppo: JDK, IDE e variabili d'ambiente.
@@ -17,8 +29,8 @@
 
 ### Architettura di un programma Java
 
-* File `.java` con una classe pubblica.
-* Necessità di un **metodo `main`**:
+* Un file `.java` contiene una classe pubblica.
+* Ogni programma ha un metodo `main` che rappresenta il punto d'ingresso:
 
 ```java
 public static void main(String[] args) {
@@ -27,14 +39,15 @@ public static void main(String[] args) {
 ```
 
 ### JDK, JRE, JVM
-https://www.oracle.com/it/java/technologies/downloads/#jdk21-windows
-* **JDK**: kit di sviluppo (include compilatore `javac`).
-* **JRE**: ambiente di esecuzione per Java.
-* **JVM**: macchina virtuale che esegue il bytecode.
+
+* **JDK** (Java Development Kit): include `javac`, il compilatore, e strumenti di sviluppo.
+* **JRE** (Java Runtime Environment): per eseguire applicazioni Java.
+* **JVM** (Java Virtual Machine): interpreta ed esegue il bytecode.
+* 📥 Scarica JDK: [https://www.oracle.com/it/java/technologies/downloads/#jdk21-windows](https://www.oracle.com/it/java/technologies/downloads/#jdk21-windows)
 
 ### IDE consigliati
 
-* IntelliJ IDEA (Community) https://www.jetbrains.com/idea/download/?section=windows
+* IntelliJ IDEA (Community): [https://www.jetbrains.com/idea/download/?section=windows](https://www.jetbrains.com/idea/download/?section=windows)
 * Eclipse
 * VS Code (con estensioni Java)
 
@@ -47,8 +60,8 @@ java HelloWorld
 
 ### Variabili d'ambiente
 
-* `JAVA_HOME` = cartella JDK
-* `PATH` = includere `$JAVA_HOME/bin`
+* `JAVA_HOME`: puntare alla cartella del JDK
+* `PATH`: includere `$JAVA_HOME/bin` o `%JAVA_HOME%\bin` su Windows
 
 ---
 
@@ -71,11 +84,11 @@ javac HelloWorld.java
 java HelloWorld
 ```
 
-### Spiegazioni
+### Spiegazioni dettagliate
 
-* `public class HelloWorld` → definizione della classe.
-* `main` → punto d'ingresso.
-* `System.out.println()` → stampa su console.
+* `public class HelloWorld` → definizione della classe, che deve avere lo stesso nome del file.
+* `public static void main(...)` → metodo principale, eseguito dalla JVM.
+* `System.out.println()` → stampa su console con a capo.
 
 ---
 
@@ -83,16 +96,28 @@ java HelloWorld
 
 ### Esercizio 1 – Compila ed esegui
 
-* File: `Saluto.java`
-* Output: `"Benvenuto nel corso AutoTest Academy!"`
+* Crea il file `Saluto.java`.
+* Scrivi un programma che stampi:
+
+```java
+System.out.println("Benvenuto nel corso AutoTest Academy!");
+```
+
+* Compila ed esegui.
 
 ### Esercizio 2 – Errori comuni
 
-* Cambia nome classe (es. `Saluto2`) senza cambiare nome file → errore da analizzare.
+* Cambia il nome della classe (es. `Saluto2`) ma lascia il file `Saluto.java`.
+* Compila e analizza l’errore restituito: "class Saluto2 is public, should be declared in a file named Saluto2.java".
 
 ### Esercizio 3 – Print multipli
 
-* Differenze tra `print()` e `println()`.
+* Usa `System.out.print()` e `System.out.println()` per confrontare:
+
+```java
+System.out.print("Linea senza a capo");
+System.out.println(" → con a capo");
+```
 
 ---
 
@@ -100,18 +125,20 @@ java HelloWorld
 
 ### Ripasso
 
-* Architettura JVM, compilazione, differenze tra `print` e `println`.
+* Rivedere differenze tra JDK, JRE, JVM.
+* Riconoscere errori di compilazione.
+* Capire la differenza tra `print()` e `println()`.
 
 ### Esercizi offline
 
-1. `MiaIdentità.java`: stampa nome, cognome, obiettivo del corso.
-2. `Curiosità.java`: stampa 3 curiosità su Java.
-3. Crea un errore di sintassi e osserva il messaggio del compilatore.
+1. `MiaIdentità.java`: stampa nome, cognome, motivazione per il corso.
+2. `Curiosità.java`: stampa tre curiosità su Java (es. data di nascita, motto, diffusione).
+3. Crea un errore di sintassi (es. dimentica un punto e virgola), compila e copia l’errore.
 
 ---
 
 ## 📎 Materiale fornito
 
-* File `HelloWorld.java`
+* File di esempio `HelloWorld.java`
 * Slide sessione (questo documento)
-* Checklist ambiente: JDK, variabili, IDE
+* Checklist ambiente: installazione JDK, configurazione variabili, test da terminale
