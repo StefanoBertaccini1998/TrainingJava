@@ -1,11 +1,5 @@
 ---
 
-title: "Sessione 1 – Introduzione a Java e Ambiente di Sviluppo"
-author: "AutoTest Academy"
-date: "Week 1 - Giorno 1"
-duration: "2h"
---------------
-
 ## 🎯 Obiettivi della sessione
 
 * Comprendere cos'è Java, la sua storia e le sue caratteristiche principali.
