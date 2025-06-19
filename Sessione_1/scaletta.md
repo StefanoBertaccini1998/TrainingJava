@@ -1,5 +1,3 @@
----
-
 ## 🎯 Obiettivi della sessione
 
 * Comprendere cos'è Java, la sua storia e le sue caratteristiche principali.
