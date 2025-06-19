@@ -1,4 +1,4 @@
-## 🎯 Obiettivi della sessione
+# 🎯 Obiettivi della sessione
 
 * Comprendere cos'è Java, la sua storia e le sue caratteristiche principali.
 * Configurare l'ambiente di sviluppo: JDK, IDE e variabili d'ambiente.
