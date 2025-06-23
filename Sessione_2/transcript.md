@@ -1,155 +1,198 @@
-# Transcript – Sessione 2: Tipi Primitivi e Variabili in Java
+## 📄 Scaletta Sessione 2 – Tipi Primitivi, Variabili e Memoria in Java
 
-## 📍 Introduzione (5 min)
+### ⏱️ Durata
 
-Buongiorno a tutte e tutti! Nella seconda sessione di AutoTest Academy continuiamo a costruire le basi della programmazione in Java. Oggi ci concentreremo su una parte fondamentale: **i tipi primitivi** e **le variabili**.
+2 ore totali:
 
-Conoscere i tipi di dato significa saper usare in modo corretto la memoria, evitare errori di conversione e scrivere codice chiaro e robusto. Faremo molta pratica tra dichiarazioni, costanti e conversioni.
+* 30–40 min teoria
+* 30–40 min live coding
+* 30–45 min esercitazione
 
 ---
 
-## 🧠 Teoria – Tipi Primitivi (30–40 min)
+### 🎯 Obiettivi della sessione
 
-### Cos’è un tipo primitivo?
+* Comprendere i tipi primitivi in Java e le differenze tra loro (dimensione, range, valore di default).
+* Distinguere fra tipi primitivi e tipi di riferimento (object/reference types).
+* Dichiarare, inizializzare e usare variabili e costanti (`final`).
+* Effettuare conversioni (casting implicito ed esplicito) e riconoscere overflow/underflow.
+* Introdurre il concetto di memoria in Java: stack vs heap, String Pool.
+* Familiarizzare con riferimenti (puntatori), Garbage Collector e lifecycle degli oggetti.
 
-In Java, un tipo primitivo rappresenta un dato semplice, che non è un oggetto. È immutabile e altamente performante.
-Ne esistono 8:
+---
 
-**Interi:**
+## 🧠 Teoria (30–40 min)
 
-* `byte` → 8 bit (da -128 a 127)
-* `short` → 16 bit
-* `int` → 32 bit (scelta predefinita per numeri interi)
-* `long` → 64 bit (richiede il suffisso `L`)
+### 1. Tipi primitivi in Java
 
-**Floating-point (decimali):**
+**Definizione:** un *tipo primitivo* rappresenta un valore semplice, non un oggetto. È immutabile, memorizzato direttamente nello stack, e offre alta efficienza.
 
-* `float` → 32 bit (richiede il suffisso `f`)
-* `double` → 64 bit (default per i decimali)
+Esistono 8 tipi primitivi:
 
-**Booleani:**
+* **Interi**
 
-* `boolean` → può valere solo `true` o `false`
+    * `byte` (8 bit): –128 … 127
+    * `short` (16 bit): –32.768 … 32.767
+    * `int` (32 bit): –2³¹ … 2³¹-1; *default* per numeri interi
+    * `long` (64 bit): –2⁶³ … 2⁶³-1; richiede suffisso `L`
 
-**Carattere:**
+* **Floating-point (decimali)**
 
-* `char` → 16 bit, codifica Unicode, es. `'a'`, `'€'`, `'\n'`
+    * `float` (32 bit): precisione singola; suffisso `f`
+    * `double` (64 bit): precisione doppia; *default* per decimali
 
-### Dichiarazione e inizializzazione
+* **Booleano**
 
-Spieghiamo e scriviamo a voce alta:
+    * `boolean`: può valere solo `true` o `false`; occupa in pratica 1 bit/logica
+
+* **Carattere**
+
+    * `char` (16 bit, Unicode): rappresenta un singolo carattere; es. `'a'`, `'€'`, `'
+      '`
+
+> **Promemoria discorsivo:** se ti perdi fra le dimensioni, ricorda che `byte` e `short` servono per risparmiare spazio (ram), mentre `int` e `double` sono le scelte standard per interi e decimali. Usare il suffisso (`L`, `f`) è obbligatorio per literal di tipo diverso da default.
+
+---
+
+### 2. Tipi di riferimento e gestione delle stringhe
+
+**Definizione:** un *tipo di riferimento* contiene un puntatore che indirizza un oggetto nell’heap. Il valore della variabile è l’indirizzo di memoria, non il dato stesso.
+
+* Riferimenti (`puntatori`): possono valere `null` quando non puntano a nessun oggetto.
+* Se provi a usare un riferimento `null`, ottieni una `NullPointerException`.
+
+#### Stringhe in Java
+
+Le stringhe (`String`) sono oggetti immutabili memorizzati in una struttura chiamata *String Pool*:
+
+* Ogni literal `"ciao"` viene messo nel pool: se dichiari due volte `"ciao"`, entrambi i riferimenti puntano allo stesso oggetto.
+* Creare una stringa con `new String("ciao")` genera un nuovo oggetto fuori dal pool.
+* Immutabilità: ogni operazione di concatenazione crea un nuovo oggetto. Per operazioni multiple, usare `StringBuilder`:
+
+  ```java
+  StringBuilder sb = new StringBuilder();
+  sb.append("ciao").append(" mondo");
+  String s = sb.toString();
+  ```
+
+> **Promemoria discorsivo:** ricorda di spiegare `==` vs `.equals()`: `==` confronta riferimenti; `.equals()` confronta contenuto.
+
+---
+
+### 3. Memoria e Garbage Collector
+
+#### Stack vs Heap
+
+* **Stack**: struttura LIFO; memorizza variabili primitive e riferimenti.
+* **Heap**: spazio di memoria dinamica per oggetti e array; richiede gestione automatica.
+
+#### Garbage Collector (GC)
+
+* Responsabile di liberare oggetti non più raggiungibili (garbage).
+* Opera in generazioni: Young (nuovi oggetti) e Old (oggetti di lunga vita).
+* Invocare `System.gc()` è solo un suggerimento alla JVM, non una forzatura.
+* Il metodo `finalize()` è deprecato: meglio usare `try-with-resources` o `Cleaner` per risorse esterne.
+
+> **Promemoria discorsivo:** se perdi il filo, ricorda che non gestiamo manualmente la memoria: JVM e GC fanno tutto. È importante capire dove vengono allocate variabili e oggetti per ottimizzare prestazioni.
+
+---
+
+### 4. Dichiarazione, inizializzazione e costanti
 
 ```java
-int eta = 30;
+int eta = 25;
 float prezzo = 19.99f;
-char iniziale = 'A';
+char iniziale = 'J';
 boolean isAttivo = true;
-```
-
-Parliamo anche di variabili locali (all’interno di un metodo) e della differenza con campi di istanza (che vedremo con le classi).
-
-### Costanti con `final`
-
-```java
 final double PI = 3.14159;
 ```
 
-* Una volta assegnata, non può più essere modificata.
-* Usata per valori simbolici, come `PI`, `TAX_RATE`, `MAX_RETRY`...
+* `final`: rende la variabile *costante*, non modificabile dopo l'assegnazione.
+* Le variabili locali (in un metodo) risiedono nello stack; i campi di classe (o di istanza) vengono inizializzati a valori di default se non impostati.
+
+> **Promemoria discorsivo:** quando dichiari un campo a livello di classe senza inizializzarlo, Java assegna un valore di default (`0` per numeri, `false` per boolean, `null` per riferimenti).
 
 ---
 
-## 🎯 Conversioni e Casting
+### 5. Casting, Widening, Narrowing e Overflow
 
-Spieghiamo le due direzioni:
+* **Widening (implicito):** conversione sicura da tipo piccolo a tipo grande (es. `int`→`long`, `float`→`double`).
+* **Narrowing (esplicito):** conversione da tipo grande a tipo piccolo (es. `double`→`int`); richiede cast manuale:
 
-* **Widening (implicito)**: es. `int` → `long`, `float` → `double`
-* **Narrowing (esplicito)**: es. `double` → `int`, richiede cast manuale:
+  ```java
+  double x = 5.7;
+  int y = (int) x; // y = 5 (troncamento, non arrotondamento)
+  ```
+* **Overflow/Underflow:** se un'operazione supera il range del tipo, il risultato avvolge ciclicamente senza eccezione:
 
-```java
-double x = 5.7;
-int y = (int) x; // y diventa 5
-```
+  ```java
+  int max = Integer.MAX_VALUE;
+  System.out.println(max + 1); // risultato negativo
+  ```
 
-Chiarire che i decimali vengono **troncati**, non arrotondati!
-
----
-
-## ⚠️ Overflow e Limiti
-
-Usiamo questo esempio:
-
-```java
-int max = Integer.MAX_VALUE;
-System.out.println(max + 1); // risulterà in overflow
-```
-
-Risultato: numero negativo per overflow del range. È un comportamento **noto** e non genera errore in compilazione, ma può causare bug logici.
+> **Promemoria discorsivo:** sottolinea sempre che il cast esplicito *perde* informazione: parti decimali vengono scartate, non arrotondate.
 
 ---
 
 ## 💻 Live Coding (30–40 min)
 
-Guidare passo-passo:
-
-1. Dichiarare variabili di tutti i tipi primitivi e stampare con `System.out.println()`.
-2. Dichiarare una costante con `final`.
-3. Mostrare un cast esplicito: `double → int`.
-4. Dimostrare un overflow con `byte` e `int`.
-5. Spiegare perché è importante conoscere i limiti del tipo (usare `Integer.MAX_VALUE`).
-
----
-
-## 🧪 Esercizi (in aula)
-
-### Esercizio 1: Profilo utente
-
-* Variabili `nome` (String), `eta` (int), `iniziale` (char), `isStudente` (boolean)
-* Stampa a console:
-
-```java
-System.out.println("Nome: " + nome);
-System.out.println("Età: " + eta);
-System.out.println("Iniziale: " + iniziale);
-System.out.println("Studente: " + isStudente);
-```
-
-### Esercizio 2: Area del cerchio
-
-* Usare `final double PI`
-* Calcolare `area = PI * raggio * raggio`
-
-### Esercizio 3: Esperimenti di casting e overflow
-
-* Dichiarare un `double`, convertirlo in `int`, e stampare
-* Provare un `byte` con valore oltre 127 e vedere cosa succede
+1. **Variabili primitive:** dichiarazione, inizializzazione e stampa di tutti i tipi.
+2. **Tipi di riferimento:** creare due stringhe e confrontarle con `==` e `.equals()`, poi con `StringBuilder`.
+3. **NullPointerException:** mostrare assegnazione `null` e try/catch su NPE.
+4. **Diagramma memoria:** disegnare stack vs heap per un semplice metodo.
+5. **Casting e overflow:** esempi pratici.
+6. **Demo GC:** ciclo che genera oggetti e `System.gc()`.
 
 ---
 
-## 📘 Homework (a casa)
+## 🧪 Esercizi (30–45 min)
+
+### Esercizio 1 – Tipi e stampa
+
+* Dichiarare variabili di tipo `int`, `long`, `float`, `double`, `char`, `boolean`.
+* Dichiarare una `String` e concatenarla in un messaggio.
+* Stampare tutto con `System.out.println()`.
+
+### Esercizio 2 – Costanti e calcoli
+
+* Usare `final double PI` per calcolare area e perimetro di un cerchio e di una sfera.
+* Confrontare con `Math.PI`.
+
+### Esercizio 3 – Casting e overflow
+
+* Convertire un `double` in `int` e descrivere la perdita di precisione.
+* Provare overflow su `byte` con valore > 127 e gestire con controllo `if`.
+
+### Esercizio 4 – Riferimenti e stringhe
+
+* Creare due stringhe identiche e confrontare con `==` vs `.equals()`.
+* Usare `new String("...")` per un oggetto fuori dal pool.
+* Stampare `System.identityHashCode()` per mostrare gli indirizzi.
+
+---
+
+## 📘 Homework
 
 ### 1. `TemperatureConverter.java`
 
-* Dato un valore in °C, convertirlo in °F: `F = C * 9/5 + 32`
-* E viceversa: `C = (F - 32) * 5/9`
+* Metodo `celsiusToFahrenheit(double c)` e `fahrenheitToCelsius(double f)`.
 
 ### 2. `CastingTest.java`
 
-* Provare vari cast da `double` a `int` e spiegare con commenti il risultato
+* Provare cast da `double` a `int` e commentare i risultati.
 
-### 3. Limiti
+### 3. `MemoryDemo.java`
 
-* Stampare valori massimi e minimi per `int`, `byte`, `double` usando:
+* Creare un array di oggetti, impostarne alcuni a `null`, invocare `System.gc()`, osservare eventuali log.
 
-```java
-System.out.println(Integer.MAX_VALUE);
-System.out.println(Byte.MIN_VALUE);
-```
+### 4. `StringPoolTest.java`
+
+* Esempi di pooling: confronto tra stringhe letterali e `new String(...)`.
 
 ---
 
-## ✅ Conclusione
+## 📎 Materiale fornito
 
-Oggi abbiamo capito che in Java ogni tipo ha regole precise. Sapere quale tipo usare ci aiuta a evitare sprechi di memoria e bug logici. Le conversioni sono potenti ma vanno maneggiate con attenzione.
-
-Nella prossima sessione entreremo nel mondo del **controllo di flusso**: if, else, switch, cicli. Portate i vostri esercizi completati e preparatevi a costruire logiche decisionali in Java!
+* Codice di esempio: `CastingDemo.java`, `OverflowTest.java`, `MemoryDemo.java`, `StringPoolTest.java`
+* Slide sessione con diagrammi stack vs heap
+* Documentazione ufficiale Java 17/21: [https://docs.oracle.com/en/java/javase/21/docs/api/index.html](https://docs.oracle.com/en/java/javase/21/docs/api/index.html)
