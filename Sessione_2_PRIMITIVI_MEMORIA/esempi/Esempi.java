@@ -3,39 +3,25 @@ package esempi;
 public class Esempi {
 
     public static void main(String[] args) {
-        String prova1 = "prova";
-        String prova2 = prova1;
-        String prova3 = null;
 
-        prova1 = format(prova1);
+        String prova = "Ciao";
+        String prova2 = "Ciao";
+        String prova3 = new String("Ciao");
 
-        System.out.println(prova1);
-        //prova
-        System.out.println(prova2);
-        //prova1
-        System.out.println(prova3);
-        //error
+        boolean isEqualsisEquals = prova == prova2;
+        boolean isEquals2 = prova != prova2;
+        boolean isMajor = 1 > 6;
+        boolean isMajor2 = 1 < 6;
 
-        prova1 = "prova2";
-        prova2 = prova1;
-        prova3 = "prova";
-        String prova = "prova4";
-
-
-        System.out.println(prova1);
-        //prova2
-        System.out.println(prova2);
-        //prova2
-        System.out.println(prova3);
-        //prova
-        System.out.println(prova);
-        //prova4
-        System.out.println(prova1 == prova2);
-        //false
-        System.out.println(prova1.equals(prova2));
-        //false
-        System.out.println(prova1 != prova2);
-        //true
+        System.out.println(prova == prova2);
+        System.out.println(isEqualsisEquals);
+        //TRUE
+        System.out.println(prova == prova3);
+        //FALSE
+        System.out.println(prova.equals(prova2));
+        //TRUE
+        System.out.println(prova.equals(prova3));
+        //TRUE
     }
 
     private static String format(String stringa) {
