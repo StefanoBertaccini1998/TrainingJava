@@ -1,104 +1,136 @@
-# 📄 Scaletta Sessione 3 – Controllo di Flusso: Strutture Condizionali
+# 📄 Scaletta Sessione 4 – Controllo di Flusso: Cicli e Collections
 
 ## ⏱️ Durata
 
 2 ore totali:
 
-* 30–40 min teoria
-* 30–40 min live coding
-* 30–45 min esercitazione
+* 30–40 min teoria
+* 30–40 min live coding
+* 30–45 min esercitazione
 
 ---
 
 ## 🎯 Obiettivi della sessione
 
-* Comprendere le strutture condizionali `if`, `else if`, `else`.
-* Utilizzare espressioni booleane con operatori di confronto (`==`, `!=`, `>`, `<`, `>=`, `<=`) e logici (`&&`, `||`, `!`).
-* Applicare il costrutto `switch` con tipi primitivi, `String` ed `enum`.
-* Gestire branch multipli, fall-through e `default`.
+* Introdurre le principali strutture dati: Array, List, Set e Map, con i loro modelli di allocazione e gestione della memoria.
+* Comprendere quando scegliere una struttura piuttosto che un'altra in base a performance di accesso, inserimento e overhead di memoria.
+* Conoscere i cicli `for`, `for-each`, `while` e `do-while` e applicarli anche alle collection.
+* Gestire condizioni di uscita, `break`, `continue` e labeling.
 
 ---
 
-## 🧠 Teoria (30–40 min)
+## 🧠 Teoria (30–40 min)
 
-### 1. Istruzione `if-else`
+### 1. Introduzione alle Collections di base
 
-* Sintassi e flusso di esecuzione.
-* Espressioni booleane: confronto e concatenazione di condizioni.
-* Struttura a ramificazioni: `if`, `else if`, `else`.
+* **Array**
 
-### 2. Nested Conditions
+    * Struttura contigua in memoria, dimensione fissa.
+    * Accesso per indice in O(1), senza overhead di oggetti wrapper.
+    * Adatto per buffer statici e letture rapide; svantaggio: dimensione non modificabile, ridimensionamento costoso.
+* **List**
 
-* Annidamento di `if` per validazioni progressive.
-* Evitare complessità: guard clauses e early return.
+    * Interfaccia per sequenze ordinate; implementazioni principali:
 
-### 3. Costrutto `switch`
+        * `ArrayList`: array dinamico, O(1) per accesso casuale, O(n) per inserimento/rimozione in mezzo, overhead di capacità aggiuntiva.
+        * `LinkedList`: nodi doppiamente concatenati, O(n) per accesso casuale, O(1) per inserimento/rimozione a inizio/fine, maggiore overhead di memoria per puntatori.
+    * Scegliere `ArrayList` per accesso frequente per indice, `LinkedList` per modifiche frequenti in testa o in modalità iterator.
+* **Set**
 
-* Tipi supportati: `int`, `char`, `String`, `enum`.
-* Sintassi: `case`, `break`, `default`.
-* Fall-through e importanza del `break`.
-* Uso di `enum` in `switch` per chiarezza.
+    * Collezione senza duplicati; implementazioni:
+
+        * `HashSet`: basato su `HashMap`, buona scalabilità, O(1) medio per operazioni, overhead di bucket e nodi.
+        * `TreeSet`: basato su albero rosso-nero, O(log n) per operazioni, mantiene ordine naturale.
+    * Ideale per membership test e unione/ intersezione di insiemi.
+* **Map**
+
+    * Coppie chiave/valore; implementazioni:
+
+        * `HashMap`: O(1) medio per `get`/`put`, overhead simile a `HashSet`.
+        * `TreeMap`: O(log n) per operazioni, mantiene chiavi ordinate.
+    * Utilizzata per indicizzare oggetti e rapidi lookup.
+
+### 2. Cicli di iterazione
+
+#### 2.1 Ciclo `for`
+
+* Sintassi: inizializzazione; condizione; aggiornamento.
+* Uso classico per array e sequenze indicizzate.
+* Attenzione a off-by-one e loop infinito.
+
+#### 2.2 Enhanced `for` (`for-each`)
+
+* Sintassi: `for (Tipo e : collezione)`.
+* Funziona con array e qualsiasi `Iterable` (List, Set, Map.entrySet()).
+* Comodo, ma non consente modifiche strutturali sulla collezione in corso di iterazione.
+
+#### 2.3 Cicli `while` e `do-while`
+
+* `while`: verifica condizione prima di ogni iterazione.
+* `do-while`: esegue almeno una volta il corpo.
+* Esempi di lettura fino a sentinel e menù ripetuti.
+
+#### 2.4 `break`, `continue` e labeling
+
+* `break` interrompe il ciclo.
+* `continue` salta all’iterazione successiva.
+* Label per controllare cicli annidati.
 
 ---
 
-## 💻 Live Coding (30–40 min)
+## 💻 Live Coding (30–40 min)
 
-1. Esempio base `if-else`: determinare se un numero è pari o dispari.
-2. Classificazione di un voto (A/B/C/D/F) con `if-else if`.
-3. Validazione input utente con `Scanner` e condizioni annidate.
-4. Menù testuale con `switch` su `String` (`"1"`, `"2"`, `"0"`).
-5. `switch` su `enum Giorno` per distinguere lavorativo/weekend.
+1. **Array**: somma dei primi N numeri con `for` su un `int[]`.
+2. **List**: `for-each` su `ArrayList<String>` per stampare elementi.
+3. **Set**: `for-each` su `HashSet<Integer>` per filtrare numeri pari.
+4. **Map**: iterazione su `entrySet()` di `HashMap<String,Integer>` per stampare chiave e valore.
+5. Ciclo `while` per lettura da `Scanner` fino a `"exit"`.
+6. `do-while` per menù interattivo con `continue` per input non valido.
+7. Uso di `break` e `label` in cicli annidati per ricerca in `int[][]`.
 
 ---
 
-## 🧪 Esercizi (30–45 min)
+## 🧪 Esercizi (30–45 min)
 
-### Esercizio 1 – Calcolatore di voti
+### Esercizio 1 – Somma condizionale
 
-* Leggi un voto intero (0–100) da console.
-* Usa `if-else if-else` per stampare:
+* Data un array di interi, usa `for-each` per sommare solo i valori positivi.
 
-    * `>= 90` → "Eccellente"
-    * `>= 75` → "Buono"
-    * `>= 60` → "Sufficiente"
-    * `< 60` → "Insufficiente"
+### Esercizio 2 – Tabellina di moltiplicazione
 
-### Esercizio 2 – Menù interattivo
+* Usa due cicli `for` annidati per stampare la tabellina da 1 a 10.
 
-* Implementa un piccolo menù con `switch`:
+### Esercizio 3 – Ricerca in array
 
-    * `1` → stampa data e ora attuale
-    * `2` → calcola potenza (base ed esponente da input)
-    * `3` → genera un numero casuale
-    * `0` → esci dal programma
-* Gestisci `default` per opzione non valida.
+* Implementa un `while` che cerca un elemento in un array e termina con `break` appena trovato.
 
-### Esercizio 3 – Controllo su `enum`
+### Esercizio 4 – Menù ripetuto
 
-* Definisci `enum Giorno { LUN, MAR, MER, GIO, VEN, SAB, DOM }`.
-* Data una variabile `Giorno g`, usa `switch` per stampare "Giorno lavorativo" o "Weekend".
+* Crea un `do-while` che mostra un menù e ripete finché l’utente non sceglie `0`, gestendo `continue` per opzione non valida.
 
-### Esercizio 4 – Validazione multipla
+### Esercizio 5 – Matrice e `label`
 
-* Leggi nome utente (`String`) e età (`int`).
-* Usa condizioni annidate per verificare:
+* Dato un `int[][]`, usa cicli annidati e `break label` per uscire appena trovi il valore target.
 
-    * `nome != null && !nome.isBlank()`
-    * `età >= 18 && età <= 120`
-* Stampa messaggi di errore specifici per ogni validazione.
+### Esercizio 6 – Iterazione Collections
+
+* Data una `List<Integer>`, calcola la somma con `for-each`.
+* Dato un `Set<String>`, itera e stampa ogni elemento.
+* Dato un `Map<String,Integer>`, itera su `entrySet()` e stampa le coppie chiave-valore.
+* Discuti brevemente quale struttura dati è più adatta ai diversi casi, in termini di accesso e overhead di memoria.
 
 ---
 
 ## 📘 Homework
 
-1. **LeapYearChecker.java**: implementa `isLeapYear(int year)` usando `if` e testalo con input vari.
-2. **SimpleCalculator.java**: scrivi un calcolatore base (addizione, sottrazione, moltiplicazione, divisione) controllato da `switch`.
-3. **PasswordValidator.java**: verifica complessità di una password (minimo 8 caratteri, almeno una cifra e un simbolo) con nested `if`.
+1. **FibonacciGenerator.java**: genera e stampa la serie di Fibonacci fino al N-esimo termine con `for` o `while`.
+2. **PrimeChecker.java**: controlla se un numero è primo usando un loop `for` con `break`.
+3. **MatrixMultiplier.java**: moltiplica due matrici 3×3 usando cicli annidati.
 
 ---
 
 ## 📎 Materiale fornito
 
-* Slide sessione (`IfElseSwitch.pdf`).
-* Codice di esempio: `IfElseDemo.java`, `SwitchDemo.java`.
-* Link documentazione ufficiale Java 21 sulle strutture condizionali.
+* Slide sessione (`LoopsAndLabels.pdf`).
+* Codice di esempio: `ForDemo.java`, `WhileDemo.java`, `NestedLoopsDemo.java`, `CollectionsDemo.java`.
+* Link documentazione ufficiale Java 21 su array e collections.

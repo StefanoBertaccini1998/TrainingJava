@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Sessione_1_INTRODUZIONE_JAVA/esercizi" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Sessione_2_PRIMITIVI_MEMORIA" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Sessione_3_CONTROLLO_DEL_FLUSSO" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Sessione_4_CICLI" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

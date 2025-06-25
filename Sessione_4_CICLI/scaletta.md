@@ -1,64 +1,96 @@
-
-# 📄 Scaletta Sessione 4 – Controllo di Flusso: Cicli
+# 📄 Scaletta Sessione 4 – Controllo di Flusso: Cicli e Collections
 
 ## ⏱️ Durata
 
 2 ore totali:
 
-* 30–40 min teoria
-* 30–40 min live coding
-* 30–45 min esercitazione
+* 30–40 min teoria
+* 30–40 min live coding
+* 30–45 min esercitazione
 
 ---
 
 ## 🎯 Obiettivi della sessione
 
-* Conoscere i cicli `for`, `for-each`, `while` e `do-while`.
-* Gestire condizioni di uscita, `break` e `continue`.
-* Utilizzare cicli annidati e etichette (`label`).
-* Comprendere differenze tra loop controllati a conteggio e a condizione.
+* Introdurre le principali strutture dati: Array, List, Set e Map, con i loro modelli di allocazione e gestione della memoria.
+* Comprendere quando scegliere una struttura piuttosto che un'altra in base a performance di accesso, inserimento e overhead di memoria.
+* Conoscere i cicli `for`, `for-each`, `while` e `do-while` e applicarli anche alle collection.
+* Gestire condizioni di uscita, `break`, `continue` e labeling.
 
 ---
 
-## 🧠 Teoria (30–40 min)
+## 🧠 Teoria (30–40 min)
 
-### 1. Ciclo `for`
+### 1. Introduzione alle Collections di base
 
-* Sintassi: inizializzazione, condizione, aggiornamento.
-* Esempi di uso: iterazione numerica.
-* Possibili errori: loop infinito, off-by-one.
+* **Array**
 
-### 2. Enhanced `for` (`for-each`)
+    * Struttura contigua in memoria, dimensione fissa.
+    * Accesso per indice in O(1), senza overhead di oggetti wrapper.
+    * Adatto per buffer statici e letture rapide; svantaggio: dimensione non modificabile, ridimensionamento costoso.
+* **List**
 
-* Sintassi: `for (Tipo elem : collezione)`.
-* Uso con array e collezioni (`List`, `Set`).
-* Limitazioni: impossibilità di rimuovere elementi durante l’iterazione.
+    * Interfaccia per sequenze ordinate; implementazioni principali:
 
-### 3. Cicli `while` e `do-while`
+        * `ArrayList`: array dinamico, O(1) per accesso casuale, O(n) per inserimento/rimozione in mezzo, overhead di capacità aggiuntiva.
+        * `LinkedList`: nodi doppiamente concatenati, O(n) per accesso casuale, O(1) per inserimento/rimozione a inizio/fine, maggiore overhead di memoria per puntatori.
+    * Scegliere `ArrayList` per accesso frequente per indice, `LinkedList` per modifiche frequenti in testa o in modalità iterator.
+* **Set**
 
-* Differenza principale: verifica condizione prima (`while`) o dopo (`do-while`).
-* Esempi di loop sentinel-controlled e user-driven.
+    * Collezione senza duplicati; implementazioni:
 
-### 4. `break`, `continue` e labeling
+        * `HashSet`: basato su `HashMap`, buona scalabilità, O(1) medio per operazioni, overhead di bucket e nodi.
+        * `TreeSet`: basato su albero rosso-nero, O(log n) per operazioni, mantiene ordine naturale.
+    * Ideale per membership test e unione/ intersezione di insiemi.
+* **Map**
 
-* Terminare un ciclo (`break`).
-* Saltare alla prossima iterazione (`continue`).
-* Etichette per controllare cicli annidati.
+    * Coppie chiave/valore; implementazioni:
+
+        * `HashMap`: O(1) medio per `get`/`put`, overhead simile a `HashSet`.
+        * `TreeMap`: O(log n) per operazioni, mantiene chiavi ordinate.
+    * Utilizzata per indicizzare oggetti e rapidi lookup.
+
+### 2. Cicli di iterazione
+
+#### 2.1 Ciclo `for`
+
+* Sintassi: inizializzazione; condizione; aggiornamento.
+* Uso classico per array e sequenze indicizzate.
+* Attenzione a off-by-one e loop infinito.
+
+#### 2.2 Enhanced `for` (`for-each`)
+
+* Sintassi: `for (Tipo e : collezione)`.
+* Funziona con array e qualsiasi `Iterable` (List, Set, Map.entrySet()).
+* Comodo, ma non consente modifiche strutturali sulla collezione in corso di iterazione.
+
+#### 2.3 Cicli `while` e `do-while`
+
+* `while`: verifica condizione prima di ogni iterazione.
+* `do-while`: esegue almeno una volta il corpo.
+* Esempi di lettura fino a sentinel e menù ripetuti.
+
+#### 2.4 `break`, `continue` e labeling
+
+* `break` interrompe il ciclo.
+* `continue` salta all’iterazione successiva.
+* Label per controllare cicli annidati.
 
 ---
 
-## 💻 Live Coding (30–40 min)
+## 💻 Live Coding (30–40 min)
 
-1. Somma dei primi N numeri con `for`.
-2. Iterazione `for-each` su array di `String`.
-3. Ciclo `while` per lettura da `Scanner` fino a input sentinel (`"exit"`).
-4. `do-while` per menù ripetuto finché l’utente non esce.
-5. Uso di `break` e `continue` in cicli: stampa solo numeri pari.
-6. Ciclo annidato con `label` per ricerca in matrice.
+1. **Array**: somma dei primi N numeri con `for` su un `int[]`.
+2. **List**: `for-each` su `ArrayList<String>` per stampare elementi.
+3. **Set**: `for-each` su `HashSet<Integer>` per filtrare numeri pari.
+4. **Map**: iterazione su `entrySet()` di `HashMap<String,Integer>` per stampare chiave e valore.
+5. Ciclo `while` per lettura da `Scanner` fino a `"exit"`.
+6. `do-while` per menù interattivo con `continue` per input non valido.
+7. Uso di `break` e `label` in cicli annidati per ricerca in `int[][]`.
 
 ---
 
-## 🧪 Esercizi (30–45 min)
+## 🧪 Esercizi (30–45 min)
 
 ### Esercizio 1 – Somma condizionale
 
@@ -78,7 +110,14 @@
 
 ### Esercizio 5 – Matrice e `label`
 
-* Dato un array bidimensionale `int[][]`, usa cicli annidati e `break label` per uscire appena trovi un valore target.
+* Dato un `int[][]`, usa cicli annidati e `break label` per uscire appena trovi il valore target.
+
+### Esercizio 6 – Iterazione Collections
+
+* Data una `List<Integer>`, calcola la somma con `for-each`.
+* Dato un `Set<String>`, itera e stampa ogni elemento.
+* Dato un `Map<String,Integer>`, itera su `entrySet()` e stampa le coppie chiave-valore.
+* Discuti brevemente quale struttura dati è più adatta ai diversi casi, in termini di accesso e overhead di memoria.
 
 ---
 
@@ -93,5 +132,5 @@
 ## 📎 Materiale fornito
 
 * Slide sessione (`LoopsAndLabels.pdf`).
-* Codice di esempio: `ForDemo.java`, `WhileDemo.java`, `NestedLoopsDemo.java`.
-* Link documentazione ufficiale Java 21 sui cicli.
+* Codice di esempio: `ForDemo.java`, `WhileDemo.java`, `NestedLoopsDemo.java`, `CollectionsDemo.java`.
+* Link documentazione ufficiale Java 21 su array e collections.

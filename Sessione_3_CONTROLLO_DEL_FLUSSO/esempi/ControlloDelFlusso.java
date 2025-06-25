@@ -20,6 +20,8 @@ public class ControlloDelFlusso {
             //Allora
             System.out.println("Il Numero generato è zero");
         } else if (numero % 2 == 0) {
+            int divisione = numero / 2;
+            int resto = numero % 2;
             //Allora
             System.out.println("Il Numero generato è pari");
         } else if (numero % 3 == 0) {

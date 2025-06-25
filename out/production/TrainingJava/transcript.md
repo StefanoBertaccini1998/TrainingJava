@@ -1,234 +1,128 @@
-## 📄 Scaletta Sessione 2 – Tipi Primitivi, Variabili e Memoria in Java
+# 📄 Transcript Lezioni – Sessione 4
 
-### ⏱️ Durata
-
-2 ore totali:
-
-* 30–40 min teoria
-* 30–40 min live coding
-* 30–45 min esercitazione
+**Docente Note & Script** – appunti per condurre la lezione, con definizioni, esempi, concetti chiave e suggerimenti per mantenere alta l’attenzione.
 
 ---
 
-### 🎯 Obiettivi della sessione
+## 1. Introduzione e Obiettivi (2 min)
 
-* Comprendere i tipi primitivi in Java e le differenze tra loro (dimensione, range, valore di default).
-* Distinguere fra tipi primitivi e tipi di riferimento (object/reference types).
-* Dichiarare, inizializzare e usare variabili e costanti (`final`).
-* Effettuare conversioni (casting implicito ed esplicito) e riconoscere overflow/underflow.
-* Introdurre il concetto di memoria in Java: stack vs heap, String Pool.
-* Familiarizzare con riferimenti (puntatori), Garbage Collector e lifecycle degli oggetti.
+> **Insegnante:**
+> "Oggi esploreremo sia i cicli (`for`, `for-each`, `while`, `do-while`) sia le principali strutture dati in Java: Array, List, Set e Map. Scopriremo come iterare su di esse e quando scegliere ciascuna in base a performance e consumo di memoria."
 
----
-
-## 🧠 Teoria (30–40 min)
-
-### 1. Tipi primitivi in Java
-
-**Definizione:** un *tipo primitivo* rappresenta un valore semplice, non un oggetto. È immutabile, memorizzato direttamente nello stack, e offre alta efficienza.
-
-Esistono 8 tipi primitivi:
-
-* **Interi**
-
-  * `byte` (8 bit): –128 … 127
-  * `short` (16 bit): –32.768 … 32.767
-  * `int` (32 bit): –2³¹ … 2³¹-1; *default* per numeri interi
-  * `long` (64 bit): –2⁶³ … 2⁶³-1; richiede suffisso `L`
-
-* **Floating-point (decimali)**
-
-  * `float` (32 bit): precisione singola; suffisso `f`
-  * `double` (64 bit): precisione doppia; *default* per decimali
-
-* **Booleano**
-
-  * `boolean`: può valere solo `true` o `false`; occupa in pratica 1 bit/logica
-
-* **Carattere**
-
-  * `char` (16 bit, Unicode): rappresenta un singolo carattere; es. `'a'`, `'€'`, `'
-    '`
-
-> **Promemoria discorsivo:** se ti perdi fra le dimensioni, ricorda che `byte` e `short` servono per risparmiare spazio (ram), mentre `int` e `double` sono le scelte standard per interi e decimali. Usare il suffisso (`L`, `f`) è obbligatorio per literal di tipo diverso da default.
+* **Concetti chiave da pronunciare:** iterazione, struttura contigua vs strutture dinamiche, complessità di accesso e modifica.
+* **Definizione breve:** *Iterazione* = ripetizione automatica di istruzioni finché una condizione è vera.
+* **Tip coinvolgimento:** chiedere: "Quando avete bisogno di ripetere un’azione in un’app reale?" (es. scorrere una lista di prodotti)
 
 ---
 
-### 2. Tipi di riferimento e gestione delle stringhe
+## 2. Introduzione alle Collections (8 min)
 
-**Definizione:** un *tipo di riferimento* contiene un puntatore che indirizza un oggetto nell’heap. Il valore della variabile è l’indirizzo di memoria, non il dato stesso.
+### 2.1 Array
 
-* Riferimenti (`puntatori`): possono valere `null` quando non puntano a nessun oggetto.
-* Se provi a usare un riferimento `null`, ottieni una `NullPointerException`.
+* **Definizione:** struttura contigua di elementi di stesso tipo, dimensione fissa.
+* **Accesso:** O(1) per indice, senza overhead di oggetti wrapper.
+* **Uso ideale:** buffer di dati noti, performance di lettura.
+* **Limitazioni:** ridimensionamento costoso, dimensione immutabile.
 
-#### Stringhe in Java
+> **Tip spiegazione:** mostra un disegno in lavagna di un blocco di memoria.
 
-Le stringhe (`String`) sono oggetti immutabili memorizzati in una struttura chiamata *String Pool*:
+### 2.2 List (`ArrayList` vs `LinkedList`)
 
-* Ogni literal `"ciao"` viene messo nel pool: se dichiari due volte `"ciao"`, entrambi i riferimenti puntano allo stesso oggetto.
-* Creare una stringa con `new String("ciao")` genera un nuovo oggetto fuori dal pool.
-* Immutabilità: ogni operazione di concatenazione crea un nuovo oggetto. Per operazioni multiple, usare `StringBuilder`:
+* **ArrayList:** array dinamico, capacità interna che cresce (resize O(n)). Accesso O(1), inserimento O(n) in mezzo.
+* **LinkedList:** nodi doppiamente collegati. Accesso O(n), inserimento/rimozione O(1) ai bordi.
+* **Quando usare:** `ArrayList` per accessi casuali frequenti, `LinkedList` per molte inserzioni/rimozioni.
 
-  ```java
-  StringBuilder sb = new StringBuilder();
-  sb.append("ciao").append(" mondo");
-  String s = sb.toString();
-  ```
+> **Tip confronto:** chiedere: "Se volessi inserire sempre in testa, quale sceglieresti?"
 
-> **Promemoria discorsivo:** ricorda di spiegare `==` vs `.equals()`: `==` confronta riferimenti; `.equals()` confronta contenuto.
+### 2.3 Set (`HashSet` vs `TreeSet`)
 
----
+* **HashSet:** basato su hash table, operazioni O(1) mediamente.
+* **TreeSet:** basato su albero bilanciato, operazioni O(log n), mantiene ordine.
+* **Uso:** membership test, eliminazione duplicati.
 
-### 3. Memoria e Garbage Collector
+### 2.4 Map (`HashMap` vs `TreeMap`)
 
-#### Stack vs Heap
+* **HashMap:** coppie chiave/valore, lookup O(1) medio.
+* **TreeMap:** O(log n), mantiene chiavi ordinate.
+* **Uso:** indicizzazione rapida di valori.
 
-* **Stack**: struttura LIFO; memorizza variabili primitive e riferimenti.
-* **Heap**: spazio di memoria dinamica per oggetti e array; richiede gestione automatica.
-
-#### Garbage Collector (GC)
-
-* Responsabile di liberare oggetti non più raggiungibili (garbage).
-* Opera in generazioni: Young (nuovi oggetti) e Old (oggetti di lunga vita).
-* Invocare `System.gc()` è solo un suggerimento alla JVM, non una forzatura.
-* Il metodo `finalize()` è deprecato: meglio usare `try-with-resources` o `Cleaner` per risorse esterne.
-
-> **Promemoria discorsivo:** se perdi il filo, ricorda che non gestiamo manualmente la memoria: JVM e GC fanno tutto. È importante capire dove vengono allocate variabili e oggetti per ottimizzare prestazioni.
+> **Tip memoria:** sottolineare overhead di bucket e nodi per HashSet/HashMap.
 
 ---
 
-### 4. Dichiarazione, inizializzazione e costanti
+## 3. Cicli di Iterazione (15 min)
 
-```java
-int eta = 25;
-float prezzo = 19.99f;
-char iniziale = 'J';
-boolean isAttivo = true;
-final double PI = 3.14159;
-```
+### 3.1 `for` classico
 
-* `final`: rende la variabile *costante*, non modificabile dopo l'assegnazione.
-* Le variabili locali (in un metodo) risiedono nello stack; i campi di classe (o di istanza) vengono inizializzati a valori di default se non impostati.
+* **Sintassi:** `for(init; cond; step)`.
+* **Quando usarlo:** iterazioni a conteggio noto.
+* **Attenzione:** off-by-one, loop infinito.
 
-> **Promemoria discorsivo:** quando dichiari un campo a livello di classe senza inizializzarlo, Java assegna un valore di default (`0` per numeri, `false` per boolean, `null` per riferimenti).
+> **Esempio lavagna:** stampa da 1 a 5.
 
----
+### 3.2 Enhanced `for-each`
 
-### 5. Casting, Widening, Narrowing e Overflow
+* **Sintassi:** `for(T e : collection)`.
+* **Pro:** codice pulito, nessun indice.
+* **Contro:** non permette `remove()` direttamente.
 
-* **Widening (implicito):** conversione sicura da tipo piccolo a tipo grande (es. `int`→`long`, `float`→`double`).
-* **Narrowing (esplicito):** conversione da tipo grande a tipo piccolo (es. `double`→`int`); richiede cast manuale:
+> **Esempio live:** su `String[]` e `List<String>`.
 
-  ```java
-  double x = 5.7;
-  int y = (int) x; // y = 5 (troncamento, non arrotondamento)
-  ```
-* **Overflow/Underflow:** se un'operazione supera il range del tipo, il risultato avvolge ciclicamente senza eccezione:
+### 3.3 `while` vs `do-while`
 
-  ```java
-  int max = Integer.MAX_VALUE;
-  System.out.println(max + 1); // risultato negativo
-  ```
+* **`while(cond)`**: verifica prima.
+* **`do { } while(cond)`**: almeno una esecuzione.
 
-> **Promemoria discorsivo:** sottolinea sempre che il cast esplicito *perde* informazione: parti decimali vengono scartate, non arrotondate.
+> **Demo:** confronto comportamento con condizione falsa iniziale.
 
----
+### 3.4 `break`, `continue`, Label
 
-## 💻 Live Coding (30–40 min)
+* **`break`:** esce dal ciclo corrente.
+* **`continue`:** passa all’iterazione successiva.
+* **Label:** etichetta per uscire da cicli annidati.
 
-Durante il live coding, guida gli studenti attraverso demo mirate e focalizzate su concetti chiave:
+> **Esempio:** `outer: for(...) { for(...) { if(...) break outer; } }`
 
-1. **Dichiarazione e inizializzazione di tipi primitivi**
-
-  * Mostra come dichiarare `byte`, `short`, `int`, `long`, `float`, `double`, `char`, `boolean`.
-  * Spiega il valore di default e l'importanza del suffisso (`L`, `f`).
-  * Concetto chiave: *efficienza della memoria*—perché scegliere un tipo piuttosto che un altro.
-
-2. **Uso di `final` per le costanti**
-
-  * Definisci una costante `PI` e fallo utilizzare in un calcolo semplice.
-  * Concetto chiave: *immutabilità* e manutenzione del codice.
-
-3. **Gestione delle stringhe e tipi di riferimento**
-
-  * Crea due stringhe letterali identiche e confrontale con `==` e `.equals()`.
-  * Usa `new String()` e mostra che cambia il riferimento.
-  * Concetto chiave: *String Pool* e differenza tra confronto di riferimento e confronto di contenuto.
-
-4. **Esempio di NullPointerException**
-
-  * Assegna `null` a un riferimento `String` e prova a chiamare un metodo.
-  * Gestisci la NPE con un blocco `try-catch`.
-  * Concetto chiave: *controllo dei riferimenti* e best practice per evitare NPE.
-
-5. **Diagramma di memoria: stack vs heap**
-
-  * Scrivi un metodo semplice che dichiara variabili locali e crea un oggetto.
-  * Disegna a video (o lavagna) lo stack frame e l’area heap per l’oggetto.
-  * Concetto chiave: *allocazione di memoria* e scope delle variabili.
-
-6. **Casting, overflow e underflow**
-
-  * Mostra un widening implicito (`int`→`long`) e un narrowing esplicito (`double`→`int`).
-  * Esegui un overflow con `int` (Integer.MAX\_VALUE + 1) e un underflow con `byte`.
-  * Concetto chiave: *perdita di dati* e comportamento ciclico dei tipi primitivi.
-
-7. **Dimostrazione del Garbage Collector**
-
-  * Crea ripetutamente oggetti in un ciclo e chiama `System.gc()`.
-  * Spiega che l’invocazione è solo un suggerimento e mostra log di GC se disponibile.
-  * Concetto chiave: *gestione automatica della memoria* e generazioni del GC.
+**Tip attenzione:** spiegare che l’uso eccessivo di label può rendere il codice meno leggibile.
 
 ---
 
-## 🧪 Esercizi (30–45 min)
+## 4. Live Coding & Demo (30–40 min)
 
-### Esercizio 1 – Tipi e stampa
+1. **Array** – somma primi N numeri con `for`.
+2. **List** – stampa elementi `ArrayList<String>` con `for-each`.
+3. **Set** – usa `for-each` su `HashSet<Integer>` per filtrare numeri pari.
+4. **Map** – itera su `HashMap<String,Integer>` con `entrySet()`.
+5. **`while`** – lettura da `Scanner` fino a `"exit"`.
+6. **`do-while`** – menù utente con `continue` per input errato.
+7. **Label** – ricerca target in `int[][]`, `break label`.
 
-* Dichiarare variabili di tipo `int`, `long`, `float`, `double`, `char`, `boolean`.
-* Dichiarare una `String` e concatenarla in un messaggio.
-* Stampare tutto con `System.out.println()`.
-
-### Esercizio 2 – Costanti e calcoli
-
-* Usare `final double PI` per calcolare area e perimetro di un cerchio e di una sfera.
-* Confrontare con `Math.PI`.
-
-### Esercizio 3 – Casting e overflow
-
-* Convertire un `double` in `int` e descrivere la perdita di precisione.
-* Provare overflow su `byte` con valore > 127 e gestire con controllo `if`.
-
-### Esercizio 4 – Riferimenti e stringhe
-
-* Creare due stringhe identiche e confrontare con `==` vs `.equals()`.
-* Usare `new String("...")` per un oggetto fuori dal pool.
-* Stampare `System.identityHashCode()` per mostrare gli indirizzi.
+> **Tip intervento:** se gli studenti si bloccano, suggerire di stampare variabili intermedie.
 
 ---
 
-## 📘 Homework
+## 5. Esercitazione Guidata (30–45 min)
 
-### 1. `TemperatureConverter.java`
+> **Insegnante:** “Provate a implementare la tabellina di moltiplicazione con cicli annidati. Confrontate poi con un `for-each` su una `List` di liste generate in precedenza.”
 
-* Metodo `celsiusToFahrenheit(double c)` e `fahrenheitToCelsius(double f)`.
+### Esercizi proposti:
 
-### 2. `CastingTest.java`
+* Somma condizionale su `int[]` con `for-each`.
+* Tabellina di moltiplicazione (cicli `for`).
+* Ricerca in array con `while` + `break`.
+* Menù interattivo con `do-while` + `continue`.
+* Iterazione su `List<Integer>`, `Set<String>`, `Map<String,Integer>` e confronto strutture.
 
-* Provare cast da `double` a `int` e commentare i risultati.
-
-### 3. `MemoryDemo.java`
-
-* Creare un array di oggetti, impostarne alcuni a `null`, invocare `System.gc()`, osservare eventuali log.
-
-### 4. `StringPoolTest.java`
-
-* Esempi di pooling: confronto tra stringhe letterali e `new String(...)`.
+> **Tip gestione classe:** alternare coppie di studenti per pairing e spiegare a vicenda.
 
 ---
 
-## 📎 Materiale fornito
+## 6. Conclusione & Homework (3 min)
 
-* Codice di esempio: `CastingDemo.java`, `OverflowTest.java`, `MemoryDemo.java`, `StringPoolTest.java`
-* Slide sessione con diagrammi stack vs heap
-* Documentazione ufficiale Java 17/21: [https://docs.oracle.com/en/java/javase/21/docs/api/index.html](https://docs.oracle.com/en/java/javase/21/docs/api/index.html)
+> **Insegnante:**
+> "Per casa: FibonacciGenerator, PrimeChecker e MatrixMultiplier. Riflettete su quale struttura dati usereste per ciascun compito e perché."
+
+* **Punto di ripresa lezione futura:** approfondire geniali, streams e lambda con collection.
+* **Tip di chiusura:** chiedere: "Qual è la differenza principale tra `ArrayList` e `LinkedList`?" per consolidare.
+
+---

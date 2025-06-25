@@ -5,26 +5,20 @@ public class ColorsRandom {
     public static void main(String[] args) {
         Colors colore1 = Colors.GIALLO;
         Colors colore2 = Colors.ROSSO;
+        DrugClass drugClass = DrugClass.C10;
 
-        switch (colore1) {
-            case ROSSO:
-                System.out.println("E' ROSSO");
+        switch (drugClass) {
+            case NA:
+                System.out.println("E' NA");
                 break;
-            case GIALLO:
-                System.out.println("E' GIALLO");
-            case CALDO:
-                System.out.println("E' caldo");
+            case C5, C3, C4:
+                System.out.println("E' C3/4/5");
                 break;
-            case BLU:
-                System.out.println("E' BLU");
-            case VERDE:
-                System.out.println("E' VERDE");
-            case FREDDO:
-                System.out.println("E' FREDDO");
+            case C2:
+                System.out.println("E' C2");
                 break;
             default:
-                System.out.println("Nessun colore");
-
+                System.out.println("La catgeoria non viene gestista dallo switch dei colori");
         }
     }
 }
