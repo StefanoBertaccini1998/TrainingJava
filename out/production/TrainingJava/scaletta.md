@@ -1,136 +1,163 @@
-# 📄 Scaletta Sessione 4 – Controllo di Flusso: Cicli e Collections
+# 📄 Scaletta Sessione 5 – Chiusura dei Fondamentali di Java
 
 ## ⏱️ Durata
 
 2 ore totali:
 
-* 30–40 min teoria
-* 30–40 min live coding
-* 30–45 min esercitazione
+* 30 min teoria avanzata
+* 30 min live coding
+* 40 min esercitazione guidata
+* 20 min review & preview OOP
 
 ---
 
 ## 🎯 Obiettivi della sessione
 
-* Introdurre le principali strutture dati: Array, List, Set e Map, con i loro modelli di allocazione e gestione della memoria.
-* Comprendere quando scegliere una struttura piuttosto che un'altra in base a performance di accesso, inserimento e overhead di memoria.
-* Conoscere i cicli `for`, `for-each`, `while` e `do-while` e applicarli anche alle collection.
-* Gestire condizioni di uscita, `break`, `continue` e labeling.
+1. Consolidare i concetti di **metodi**, **scope** e **modularità** del codice.
+2. Introdurre la **gestione delle eccezioni** (`try`/`catch`), cenni al **throws** e ai tipi di eccezione.
+3. Mostrare un esempio base di **I/O su file** con `FileReader`/`FileWriter`.
+4. Preparare il terreno al passaggio a **Programmazione a Oggetti**: incapsulamento, classi, oggetti.
 
 ---
 
-## 🧠 Teoria (30–40 min)
+## 🧠 Teoria Avanzata (30 min)
 
-### 1. Introduzione alle Collections di base
+### 1. Metodi e Modularità
 
-* **Array**
+* **Dichiarazione**: `public static Tipo nome(Parametri) { … }`
+* **Parametri** vs **argomenti**, **return** obbligatorio (o `void`).
+* **Overloading**: stessi nomi, firme diverse.
+* **Scope**: variabili locali vs variabili di classe (`static` e instance).
 
-    * Struttura contigua in memoria, dimensione fissa.
-    * Accesso per indice in O(1), senza overhead di oggetti wrapper.
-    * Adatto per buffer statici e letture rapide; svantaggio: dimensione non modificabile, ridimensionamento costoso.
-* **List**
+### 2. Gestione delle Eccezioni
 
-    * Interfaccia per sequenze ordinate; implementazioni principali:
+* **Checked** vs **Unchecked** exceptions.
+* Sintassi base:
 
-        * `ArrayList`: array dinamico, O(1) per accesso casuale, O(n) per inserimento/rimozione in mezzo, overhead di capacità aggiuntiva.
-        * `LinkedList`: nodi doppiamente concatenati, O(n) per accesso casuale, O(1) per inserimento/rimozione a inizio/fine, maggiore overhead di memoria per puntatori.
-    * Scegliere `ArrayList` per accesso frequente per indice, `LinkedList` per modifiche frequenti in testa o in modalità iterator.
-* **Set**
+  ```java
+  try {
+    // codice potenzialmente pericoloso
+  } catch (TipoEccezione e) {
+    // gestione
+  } finally {
+    // opzionale: pulizia risorse
+  }
+  ```
+* Quando usare `throws` sulla firma del metodo.
+* Best practice: non catturare `Exception` generico, loggare o rilanciare.
 
-    * Collezione senza duplicati; implementazioni:
+### 3. Introduzione a I/O su File
 
-        * `HashSet`: basato su `HashMap`, buona scalabilità, O(1) medio per operazioni, overhead di bucket e nodi.
-        * `TreeSet`: basato su albero rosso-nero, O(log n) per operazioni, mantiene ordine naturale.
-    * Ideale per membership test e unione/ intersezione di insiemi.
-* **Map**
+* **Reader/Writer** vs **Stream** (cenno).
+* Esempio di lettura riga-per-riga:
 
-    * Coppie chiave/valore; implementazioni:
-
-        * `HashMap`: O(1) medio per `get`/`put`, overhead simile a `HashSet`.
-        * `TreeMap`: O(log n) per operazioni, mantiene chiavi ordinate.
-    * Utilizzata per indicizzare oggetti e rapidi lookup.
-
-### 2. Cicli di iterazione
-
-#### 2.1 Ciclo `for`
-
-* Sintassi: inizializzazione; condizione; aggiornamento.
-* Uso classico per array e sequenze indicizzate.
-* Attenzione a off-by-one e loop infinito.
-
-#### 2.2 Enhanced `for` (`for-each`)
-
-* Sintassi: `for (Tipo e : collezione)`.
-* Funziona con array e qualsiasi `Iterable` (List, Set, Map.entrySet()).
-* Comodo, ma non consente modifiche strutturali sulla collezione in corso di iterazione.
-
-#### 2.3 Cicli `while` e `do-while`
-
-* `while`: verifica condizione prima di ogni iterazione.
-* `do-while`: esegue almeno una volta il corpo.
-* Esempi di lettura fino a sentinel e menù ripetuti.
-
-#### 2.4 `break`, `continue` e labeling
-
-* `break` interrompe il ciclo.
-* `continue` salta all’iterazione successiva.
-* Label per controllare cicli annidati.
+  ```java
+  try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+          System.out.println(line);
+      }
+  } catch (IOException e) {
+      e.printStackTrace();
+  }
+  ```
+* **Try-with-resources** per chiudere automaticamente.
 
 ---
 
-## 💻 Live Coding (30–40 min)
+## 💻 Live Coding (30 min)
 
-1. **Array**: somma dei primi N numeri con `for` su un `int[]`.
-2. **List**: `for-each` su `ArrayList<String>` per stampare elementi.
-3. **Set**: `for-each` su `HashSet<Integer>` per filtrare numeri pari.
-4. **Map**: iterazione su `entrySet()` di `HashMap<String,Integer>` per stampare chiave e valore.
-5. Ciclo `while` per lettura da `Scanner` fino a `"exit"`.
-6. `do-while` per menù interattivo con `continue` per input non valido.
-7. Uso di `break` e `label` in cicli annidati per ricerca in `int[][]`.
+1. **Metodi**:
+
+    * Definire `static int sum(int[] arr)` e `static double average(int[] arr)`.
+    * Chiamarle da `main` e stampare risultati.
+
+2. **Overloading**:
+
+    * Aggiungere `static int sum(int a, int b)` e dimostrare l’uso.
+
+3. **Eccezioni**:
+
+    * Scrivere `static int parsePositive(String s)` che lancia `IllegalArgumentException` se `n < 0` o non è un numero.
+    * Chiamarla dentro un `try/catch` in `main`.
+
+4. **File I/O**:
+
+    * Creare un piccolo file `data.txt` con numeri (o righe di testo).
+    * Leggerlo con `BufferedReader` e contare quante righe/eseguire la somma dei numeri.
 
 ---
 
-## 🧪 Esercizi (30–45 min)
+## 🧪 Esercitazione Guidata (40 min)
 
-### Esercizio 1 – Somma condizionale
+### Esercizio 1 – Utility Math
 
-* Data un array di interi, usa `for-each` per sommare solo i valori positivi.
+* Implementa una classe `MathUtils` con metodi statici:
 
-### Esercizio 2 – Tabellina di moltiplicazione
+    1. `factorial(int n)` (iterativo).
+    2. `isPrime(int n)` (semplice test fino a √n).
+* Testa entrambi in un `main`, catturando eventuali input invalidi.
 
-* Usa due cicli `for` annidati per stampare la tabellina da 1 a 10.
+### Esercizio 2 – Parser File CSV
 
-### Esercizio 3 – Ricerca in array
+* Dato un file `students.csv` con righe `nome,eta,media`, leggi ogni riga e crea stringhe:
 
-* Implementa un `while` che cerca un elemento in un array e termina con `break` appena trovato.
+  ```
+  “Alice (18) → media 7.5”
+  ```
+* Gestisci eventuali righe malformate con `try/catch` e salta quelle errate.
 
-### Esercizio 4 – Menù ripetuto
+### Esercizio 3 – Organizzazione del Codice
 
-* Crea un `do-while` che mostra un menù e ripete finché l’utente non sceglie `0`, gestendo `continue` per opzione non valida.
+* Suddividi il progetto in due classi:
 
-### Esercizio 5 – Matrice e `label`
+    * `CsvReader` con metodo `List<String[]> readCsv(String path) throws IOException`
+    * `Main` con `public static void main(...)` che chiama `readCsv`
+* Dimostra l’uso di `throws` e `try-with-resources`.
 
-* Dato un `int[][]`, usa cicli annidati e `break label` per uscire appena trovi il valore target.
+---
 
-### Esercizio 6 – Iterazione Collections
+## 💬 Review & Preview OOP (20 min)
 
-* Data una `List<Integer>`, calcola la somma con `for-each`.
-* Dato un `Set<String>`, itera e stampa ogni elemento.
-* Dato un `Map<String,Integer>`, itera su `entrySet()` e stampa le coppie chiave-valore.
-* Discuti brevemente quale struttura dati è più adatta ai diversi casi, in termini di accesso e overhead di memoria.
+1. **Review**
+
+    * Chiedere agli studenti di riassumere:
+
+        * Cosa fa un metodo `static`?
+        * Differenza tra `checked` e `unchecked` exception.
+        * Vantaggi del try-with-resources.
+
+2. **Preview OOP**
+
+    * Introduzione ai concetti di:
+
+        * **Classe** e **istanza**
+        * **Incapsulamento** e **modifier** (`private`/`public`)
+        * **Costruttori**
+    * Illustrare come i metodi definiti oggi diventeranno **metodi di istanza** delle classi.
 
 ---
 
 ## 📘 Homework
 
-1. **FibonacciGenerator.java**: genera e stampa la serie di Fibonacci fino al N-esimo termine con `for` o `while`.
-2. **PrimeChecker.java**: controlla se un numero è primo usando un loop `for` con `break`.
-3. **MatrixMultiplier.java**: moltiplica due matrici 3×3 usando cicli annidati.
+1. **FileStats.java**
+
+    * Leggi un file di testo e conta: righe, parole e caratteri.
+    * Stampa i risultati in console.
+
+2. **ExceptionDemo.java**
+
+    * Scrivi un metodo che legge un intero da `Scanner` e rilancia `NumberFormatException` con messaggio personalizzato.
+    * Gestisci l’eccezione in `main`.
+
+3. **Preparazione OOP**
+
+    * Leggi il capitolo introduttivo su classi, oggetti e costruttori nelle slide OOP.
 
 ---
 
 ## 📎 Materiale fornito
 
-* Slide sessione (`LoopsAndLabels.pdf`).
-* Codice di esempio: `ForDemo.java`, `WhileDemo.java`, `NestedLoopsDemo.java`, `CollectionsDemo.java`.
-* Link documentazione ufficiale Java 21 su array e collections.
+* Codice di esempio: `MathUtils.java`, `CsvReader.java`, `DoFileIO.java`
+* Slide sessione: “Metodi, Eccezioni & I/O”
+* Esempio di `students.csv` per esercitazione
