@@ -7,7 +7,7 @@ public class Fibonacci {
     int numero = 1;
 
     public static void main(String[] args) {
-       fibonacci(6);
+        fibonacci(6);
     }
 
     public static int fibonacci(int numeroSerie) {

@@ -1,0 +1,4 @@
+Hello world from Java
+This is a sample text file
+It contains several words and lines
+Final line here
